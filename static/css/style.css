@@ -1,0 +1,464 @@
+/*
+  File: static/css/style.css
+  Description: Final version with the container's hover transform removed to fix flickering.
+*/
+
+/* --- پایه و متغیرها --- */
+:root {
+  --primary-color: #0d6efd;
+  --secondary-color: #6c757d;
+  --success-color: #198754;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #0dcaf0;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --text-color: #2c3e50;
+  --text-light: #5a6a7e;
+  --border-radius: 0.75rem;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0,0,0,.075);
+  --modal-img-max-h: 80vh;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+/* --- کارت‌ها --- */
+.card {
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease; /* Only transition shadow */
+}
+
+/* FIX: The transform property was removed to prevent container flickering on hover */
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid var(--primary-color);
+  padding: 1.25rem 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 1.25rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 1.5rem;
+}
+
+/* --- فرم‌ها --- */
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-size: 1.05rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid #dee2e6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: 0 0 0 0.3rem rgba(13, 110, 253, 0.25);
+}
+
+/* --- دکمه‌ها --- */
+.btn {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  font-size: 1.05rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, #0b5ed7 100%);
+  border: none;
+  color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(13, 110, 253, 0.3);
+}
+
+.btn-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* --- نقشه‌ها --- */
+#map,
+#reports-map,
+#heatmap {
+  height: 400px;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-container {
+  font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  font-weight: 500;
+}
+
+.leaflet-popup-content {
+  font-family: 'Vazirmatn', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: right;
+  direction: rtl;
+  font-weight: 500;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* --- لیست گزارش‌ها --- */
+.list-group-item {
+  border-left: none;
+  border-right: none;
+  padding: 1.25rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #fff;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.list-group-item:first-child {
+  border-top: none;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(5px);
+}
+
+.list-group-item h6 {
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.list-group-item small {
+  font-weight: 600;
+}
+
+/* --- آمار --- */
+.stats-container {
+  text-align: center;
+  padding: 1rem;
+}
+
+.stats-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.stats-label {
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* --- ناوبری --- */
+.navbar-brand {
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+/* --- هشدارها --- */
+.alert {
+  border-radius: 0.75rem;
+  border: none;
+  padding: 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.alert-dismissible .btn-close {
+  padding: 1.25rem;
+}
+
+/* --- فوتر --- */
+.footer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  margin-top: auto;
+  padding: 1.5rem 0;
+  font-weight: 600;
+}
+
+.footer a {
+  text-decoration: none;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+  font-weight: 600;
+}
+
+.footer a:hover {
+  color: var(--primary-color);
+}
+
+/* --- انیمیشن‌ها --- */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* --- نمودارها --- */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: #fff;
+  padding: 1rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.card-body canvas {
+  max-height: 200px;
+  width: 100% !important;
+}
+
+#usersPieChart,
+#reportsBarChart {
+  height: 200px !important;
+  width: 100% !important;
+}
+
+/* --- تصاویر گزارش‌ها --- */
+.report-image-container {
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.report-image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.report-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: none;
+}
+
+/* --- مودال نمایش تصویر --- */
+.image-modal .modal-dialog {
+  max-width: 90%;
+  max-height: 90vh;
+}
+
+.image-modal .modal-content {
+  background: rgba(0, 0, 0, 0.9);
+  border: none;
+}
+
+.image-modal .modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+}
+
+.image-modal .modal-title {
+  color: #fff;
+}
+
+.image-modal .modal-body {
+  padding: 0;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.image-modal img {
+  max-width: 100%;
+  max-height: var(--modal-img-max-h);
+  object-fit: contain;
+}
+
+.image-modal .btn-close {
+  filter: invert(1);
+  opacity: 0.8;
+}
+
+.image-modal .btn-close:hover {
+  opacity: 1;
+}
+
+/* --- گرید گزارش‌ها --- */
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.report-card {
+  height: 100%;
+}
+
+/* --- کامنت‌ها و لایک --- */
+.comments-section {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.9em;
+}
+
+.like-btn {
+  cursor: pointer;
+}
+
+/* --- بک‌دراپ مودال --- */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal-backdrop.show {
+  backdrop-filter: blur(5px);
+}
+
+/* --- تایپوگرافی و یوتیلیتی‌ها --- */
+.text-bold {
+  font-weight: 700 !important;
+}
+
+.text-bolder {
+  font-weight: 800 !important;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to { transform: rotate(360deg); }
+}
+
+/* --- استایل‌های مخصوص زبان فارسی (RTL) --- */
+[lang="fa"] .list-group-item {
+  text-align: right;
+}
+
+[lang="fa"] .list-group-item:hover {
+  transform: translateX(-5px);
+}
+
+[lang="fa"] .form-control,
+[lang="fa"] .form-select {
+  text-align: right;
+}
+
+/* --- واکنش‌گرا (Media Queries) --- */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover, .btn:hover, .report-image {
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .stats-value {
+    font-size: 1.75rem;
+  }
+
+  .card-header, .card-body {
+    padding: 1rem;
+  }
+  
+  .report-image-container {
+    height: 150px;
+  }
+}

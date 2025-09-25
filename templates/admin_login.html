@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}ورود ادمین{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card mt-5 shadow">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">ورود به پنل مدیریت</h2>
+
+                <!-- Flash messages are already handled in layout.html via _flash_messages.html -->
+
+                <form method="post" action="{{ url_for('admin_login') }}" novalidate>
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">نام کاربری ادمین</label>
+                        <input type="text" class="form-control" id="username" name="username" required autocomplete="username">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">رمز عبور ادمین</label>
+                        <input type="password" class="form-control" id="password" name="password" required autocomplete="current-password">
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">ورود</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('index') }}" class="text-muted small">بازگشت به صفحه اصلی</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

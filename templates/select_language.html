@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('انتخاب زبان') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-lg mt-5">
+      <div class="card-body text-center p-4">
+
+        <h2 class="card-title mb-3">
+          {{ _('Select Language / زبان خود را انتخاب کنید') }}
+        </h2>
+
+        <p class="card-text mb-4">
+          {{ _('Please select your preferred language.') }}
+        </p>
+
+        <form method="post" action="{{ url_for('select_language') }}" class="d-grid gap-3">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+
+          {# English #}
+          <button type="submit"
+                  name="language"
+                  value="en"
+                  class="btn btn-lg btn-outline-primary"
+                  aria-label="{{ _('English') }}">
+            🇺🇸 English
+          </button>
+
+          {# فارسی #}
+          <button type="submit"
+                  name="language"
+                  value="fa"
+                  class="btn btn-lg btn-outline-secondary"
+                  aria-label="{{ _('فارسی') }}">
+            🇮🇷 فارسی
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('اطلاعات حساب بانکی') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow mt-4 mb-5">
+      <div class="card-header">
+        <h4>{{ _('ویرایش اطلاعات حساب بانکی') }}</h4>
+      </div>
+
+      <div class="card-body">
+        <p class="card-text">{{ _('برای برداشت وجه، لطفاً اطلاعات حساب خود را در این بخش وارد کنید. این اطلاعات محرمانه باقی خواهد ماند.') }}</p>
+
+        {# فرم به مسیر صحیح bank_account اشاره می‌کند #}
+        <form method="POST" action="{{ url_for('bank_account') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <div class="mb-3">
+            <label for="bank_name" class="form-label">{{ _('نام بانک') }}</label>
+            <input type="text" class="form-control" id="bank_name" name="bank_name"
+                   value="{{ user.bank_account.bank_name if user.bank_account else '' }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="account_number" class="form-label">{{ _('شماره حساب') }}</label>
+            <input type="text" class="form-control" id="account_number" name="account_number"
+                   value="{{ user.bank_account.account_number if user.bank_account else '' }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="sheba_number" class="form-label">{{ _('شماره شبا (بدون IR)') }}</label>
+            <input type="text" class="form-control" id="sheba_number" name="sheba_number"
+                   value="{{ user.bank_account.sheba_number if user.bank_account else '' }}" required
+                   aria-describedby="shebaHelp">
+            <div id="shebaHelp" class="form-text">{{ _('لطفاً شماره ۲۴ رقمی شبا را بدون حروف IR در ابتدا وارد کنید.') }}</div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <a href="{{ url_for('profile') }}" class="btn btn-secondary">{{ _('بازگشت به پروفایل') }}</a>
+            <button type="submit" class="btn btn-primary">{{ _('ذخیره اطلاعات') }}</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

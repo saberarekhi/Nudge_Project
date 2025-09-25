@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+
+{% block title %}پروفایل کاربر: {{ user.username }}{% endblock %}
+
+{% block styles %}
+<style>
+.reports-grid {
+    display: grid;
+    gap: 1rem;
+}
+.report-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dee2e6;
+    border-radius: .375rem;
+    padding: 1rem;
+    background: #fff;
+}
+.report-image-container img {
+    width: 100%;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: .25rem;
+    margin-top: .5rem;
+}
+@media (min-width: 576px) {
+    .report-card {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .report-content {
+        flex: 1 1 0;
+    }
+    .report-image-container {
+        flex: 0 0 120px;
+        margin-left: 1rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">پروفایل کاربر: {{ user.username }}</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-secondary">بازگشت به پنل</a>
+</div>
+
+<div class="row">
+    <!-- Left Column -->
+    <div class="col-md-4">
+        <!-- User Info -->
+        <div class="card mb-4">
+            <div class="card-header"><h5>اطلاعات کاربر</h5></div>
+            <div class="card-body">
+                <p><strong>شناسه:</strong> {{ user.id }}</p>
+                <p><strong>کد کاربر:</strong> {{ user.unique_id }}</p>
+                <p><strong>نام کاربری:</strong> {{ user.username }}</p>
+                <p><strong>گروه پژوهشی:</strong> {{ user.research_group }}</p>
+                <p><strong>ایمیل:</strong> {{ user.email }}</p>
+                <p><strong>سن:</strong> {{ user.age or 'ثبت نشده' }}</p>
+                <p><strong>جنسیت:</strong>
+                    {% if user.gender == 'male' %}مرد
+                    {% elif user.gender == 'female' %}زن
+                    {% elif user.gender == 'other' %}سایر
+                    {% else %}ثبت نشده{% endif %}
+                </p>
+                <p><strong>شغل:</strong> {{ user.occupation or 'ثبت نشده' }}</p>
+                <p><strong>تحصیلات:</strong> {{ user.education or 'ثبت نشده' }}</p>
+                <p><strong>آشنایی با فناوری:</strong> {{ user.tech_familiarity or 'ثبت نشده' }}</p>
+
+                <hr>
+
+                <p><strong>موجودی:</strong> {{ "%.0f"|format(user.balance or 0) }} ریال</p>
+                <p><strong>امتیاز (ستاره):</strong> {{ user.stars or 0 }}</p>
+                <p><strong>رتبه فعلی:</strong> {{ user.current_rank or 'ثبت نشده' }}</p>
+            </div>
+        </div>
+
+        <!-- Direct Message -->
+        <div class="card">
+            <div class="card-header"><h5>ارسال پیام مستقیم</h5></div>
+            <div class="card-body">
+                <form action="{{ url_for('admin_send_direct_message', user_id=user.id) }}" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <textarea name="message_text" class="form-control" rows="3" required
+                                  placeholder="متن پیام شما..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">ارسال پیام</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><h5>گزارش‌های کاربر</h5></div>
+            <div class="card-body">
+                {% if reports %}
+                    <div class="reports-grid">
+                        {% for report in reports %}
+                        <div class="report-card">
+                            <div class="report-content">
+                                <h6 class="report-title">گزارش #{{ report.id }}</h6>
+                                <p class="report-description">
+                                    {{ report.description[:100] }}{% if report.description|length > 100 %}…{% endif %}
+                                </p>
+                                <div class="report-meta mb-2">
+                                    <small class="text-muted">{{ report.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                                    <span class="status-badge badge
+                                        {% if report.status == 'approved' %}bg-success
+                                        {% elif report.status == 'rejected' %}bg-danger
+                                        {% else %}bg-warning{% endif %}">
+                                        {% if report.status == 'approved' %}تایید شده
+                                        {% elif report.status == 'rejected' %}رد شده
+                                        {% else %}در حال بررسی{% endif %}
+                                    </span>
+                                </div>
+                                <a href="{{ url_for('admin_view_report', report_id=report.id) }}"
+                                   class="btn btn-sm btn-info">مشاهده</a>
+                            </div>
+
+                            {% if report.image_filename %}
+                                <div class="report-image-container">
+                                    <img src="{{ url_for('uploaded_file',
+                                                          user_id=report.author.id,
+                                                          filename=report.image_filename) }}"
+                                         alt="تصویر گزارش"
+                                         class="img-fluid rounded"
+                                         onerror="this.src='{{ url_for('static', filename='img/placeholder.png') }}'">
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">هیچ گزارشی توسط این کاربر ثبت نشده است.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

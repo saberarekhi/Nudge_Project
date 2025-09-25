@@ -1,0 +1,787 @@
+# English translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-09-25 22:53+0330\n"
+"PO-Revision-Date: 2025-09-25 22:53+0330\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app.py:296
+msgid "برای ثبت‌نام باید با شرایط و قوانین موافقت کنید."
+msgstr "You must agree to the terms and conditions to register."
+
+#: app.py:300
+msgid "نام کاربری یا ایمیل قبلاً استفاده شده است."
+msgstr "The username or email is already in use."
+
+#: app.py:312
+msgid "ثبت‌نام با موفقیت انجام شد! اکنون می‌توانید وارد شوید."
+msgstr "Registration successful! You can now log in."
+
+#: app.py:327 app.py:340
+msgid "نام کاربری یا رمز عبور اشتباه است."
+msgstr "Incorrect username or password."
+
+#: app.py:369
+msgid "تنها فایل‌های تصویری مجاز هستند."
+msgstr "Only image files are allowed."
+
+#: app.py:389
+msgid "گزارش شما با موفقیت ثبت شد و در حال بررسی است."
+msgstr "Your report has been successfully submitted and is under review."
+
+#: app.py:403
+msgid "شما با موفقیت از حساب خود خارج شدید."
+msgstr "You have successfully logged out."
+
+#: app.py:446
+msgid "پروفایل شما با موفقیت به‌روزرسانی شد."
+msgstr "Your profile has been updated successfully."
+
+#: app.py:459
+msgid "این بخش برای گروه شما فعال نیست."
+msgstr "This section is not enabled for your group."
+
+#: app.py:682
+msgid "درخواست برداشت با موفقیت تایید شد."
+msgstr "Withdrawal request has been approved successfully."
+
+#: app.py:688
+msgid "درخواست برداشت رد شد و مبلغ به کاربر بازگردانده شد."
+msgstr "Withdrawal request was denied and the amount refunded to the user."
+
+#: app.py:692
+msgid "این درخواست قبلاً بررسی شده است."
+msgstr "This request has already been reviewed."
+
+#: app.py:801
+msgid "این قابلیت برای گروه شما فعال نیست"
+msgstr "This feature is not enabled for your group."
+
+#: app.py:808
+msgid "لطفاً مبلغ معتبری وارد کنید."
+msgstr "Please enter a valid amount."
+
+#: app.py:812 templates/withdraw.html:37
+msgid "حداقل مبلغ قابل برداشت ۱۰,۰۰۰ تومان است."
+msgstr "The minimum withdrawal amount is 10,000 toman."
+
+#: app.py:816
+msgid "موجودی کافی نیست"
+msgstr "Insufficient balance."
+
+#: app.py:824
+msgid "درخواست برداشت شما ثبت شد"
+msgstr "Your withdrawal request has been submitted."
+
+#: app.py:854
+msgid "اطلاعات حساب بانکی با موفقیت ذخیره شد"
+msgstr "Bank account information saved successfully."
+
+#: app.py:862 app.py:881
+msgid "لطفاً ابتدا وارد شوید"
+msgstr "Please log in first."
+
+#: app.py:886
+msgid "لطفاً متن کامنت را وارد کنید"
+msgstr "Please enter the comment text."
+
+#: app.py:897
+msgid "کامنت شما با موفقیت ثبت شد"
+msgstr "Your comment has been posted successfully."
+
+#: templates/bank_account.html:3
+msgid "اطلاعات حساب بانکی"
+msgstr "Bank account information."
+
+#: templates/bank_account.html:10
+msgid "ویرایش اطلاعات حساب بانکی"
+msgstr "Edit bank account information."
+
+#: templates/bank_account.html:14
+msgid "برای برداشت وجه، لطفاً اطلاعات حساب خود را در این بخش وارد کنید. این اطلاعات محرمانه باقی خواهد ماند."
+msgstr "To withdraw funds, please enter your bank account information here. This information will remain confidential."
+
+#: templates/bank_account.html:21
+msgid "نام بانک"
+msgstr "Bank name."
+
+#: templates/bank_account.html:27
+msgid "شماره حساب"
+msgstr "Account number."
+
+#: templates/bank_account.html:33
+msgid "شماره شبا (بدون IR)"
+msgstr "IBAN number (without IR)."
+
+#: templates/bank_account.html:37
+msgid "لطفاً شماره ۲۴ رقمی شبا را بدون حروف IR در ابتدا وارد کنید."
+msgstr "Please enter the 24-digit IBAN number without the 'IR' letters at the beginning."
+
+#: templates/bank_account.html:41
+msgid "بازگشت به پروفایل"
+msgstr "Back to profile."
+
+#: templates/bank_account.html:42
+msgid "ذخیره اطلاعات"
+msgstr "Save information."
+
+#: templates/dashboard.html:3 templates/includes/_navbar.html:20
+#: templates/profile.html:39
+msgid "داشبورد"
+msgstr "Dashboard."
+
+#: templates/dashboard.html:31
+msgid "ثبت گزارش جدید"
+msgstr "Submit a new report."
+
+#: templates/dashboard.html:37
+msgid "توضیحات گزارش"
+msgstr "Report description."
+
+#: templates/dashboard.html:42
+msgid "تصویر (اختیاری)"
+msgstr "Image (optional)."
+
+#: templates/dashboard.html:44
+msgid "فرمت‌های مجاز: JPG, PNG, GIF. حداکثر حجم: 5MB"
+msgstr "Allowed formats: JPG, PNG, GIF. Maximum size: 5MB."
+
+#: templates/dashboard.html:49
+msgid "موقعیت مکانی روی نقشه"
+msgstr "Location on map."
+
+#: templates/dashboard.html:54
+msgid "مکان‌یابی خودکار"
+msgstr "Auto location."
+
+#: templates/dashboard.html:57
+msgid "Map for selecting location"
+msgstr "Map for selecting location."
+
+#: templates/dashboard.html:58
+msgid "برای تعیین موقعیت، روی نقشه کلیک کنید یا از دکمه مکان‌یابی خودکار استفاده نمایید."
+msgstr "To select a location, click on the map or use the auto location button."
+
+#: templates/dashboard.html:63
+msgid "ثبت گزارش"
+msgstr "Submit report."
+
+#: templates/dashboard.html:70
+msgid "گزارش‌های اخیر شما"
+msgstr "Your recent reports."
+
+#: templates/dashboard.html:80
+msgid "هنوز گزارشی ارسال نکرده‌اید."
+msgstr "You have not submitted any reports yet."
+
+#: templates/dashboard.html:89
+msgid "آمار شما"
+msgstr "Your statistics."
+
+#: templates/dashboard.html:94
+msgid "تعداد کل گزارش‌ها:"
+msgstr "Total number of reports:"
+
+#: templates/dashboard.html:98
+msgid "گزارش‌های تایید شده:"
+msgstr "Approved reports:"
+
+#: templates/dashboard.html:102
+msgid "نرخ موفقیت:"
+msgstr "Success rate:"
+
+#: templates/dashboard.html:111
+msgid "آخرین گزارش‌های کاربران"
+msgstr "Latest user reports."
+
+#: templates/dashboard.html:121
+msgid "گزارشی برای نمایش وجود ندارد."
+msgstr "No reports to display."
+
+#: templates/dashboard.html:164
+msgid "امکان دسترسی به موقعیت مکانی شما وجود ندارد. لطفاً دسترسی لازم را به مرورگر بدهید."
+msgstr "Access to your location is not available. Please allow location access in your browser."
+
+#: templates/dashboard.html:167
+msgid "مرورگر شما از قابلیت موقعیت مکانی پشتیبانی نمی‌کند."
+msgstr "Your browser does not support location capability."
+
+#: templates/dashboard.html:195
+msgid "در حال ثبت..."
+msgstr "Submitting..."
+
+#: templates/edit_profile.html:3 templates/includes/_navbar.html:96
+#: templates/profile.html:36
+msgid "ویرایش پروفایل"
+msgstr "Edit profile."
+
+#: templates/edit_profile.html:10
+msgid "ویرایش اطلاعات پروفایل"
+msgstr "Edit profile information."
+
+#: templates/edit_profile.html:19 templates/edit_profile.html:28
+#: templates/register.html:59 templates/register.html:67
+msgid "سن"
+msgstr "Age."
+
+#: templates/edit_profile.html:32 templates/edit_profile.html:33
+#: templates/register.html:70 templates/register.html:72
+msgid "جنسیت"
+msgstr "Gender."
+
+#: templates/edit_profile.html:34 templates/edit_profile.html:57
+#: templates/edit_profile.html:68 templates/register.html:97
+#: templates/register.html:108
+msgid "انتخاب کنید..."
+msgstr "Select..."
+
+#: templates/edit_profile.html:35 templates/register.html:74
+msgid "مرد"
+msgstr "Male."
+
+#: templates/edit_profile.html:36 templates/register.html:75
+msgid "زن"
+msgstr "Female."
+
+#: templates/edit_profile.html:37
+msgid "سایر"
+msgstr "Other."
+
+#: templates/edit_profile.html:43 templates/edit_profile.html:51
+#: templates/register.html:82 templates/register.html:89
+msgid "شغل"
+msgstr "Occupation."
+
+#: templates/edit_profile.html:55 templates/edit_profile.html:56
+#: templates/register.html:94 templates/register.html:96
+msgid "تحصیلات"
+msgstr "Education."
+
+#: templates/edit_profile.html:58 templates/register.html:98
+msgid "دیپلم و پایین‌تر"
+msgstr "Diploma or below."
+
+#: templates/edit_profile.html:59 templates/register.html:99
+msgid "کارشناسی"
+msgstr "Bachelor's degree."
+
+#: templates/edit_profile.html:60 templates/register.html:100
+msgid "کارشناسی ارشد"
+msgstr "Master's degree."
+
+#: templates/edit_profile.html:61 templates/register.html:101
+msgid "دکتری و بالاتر"
+msgstr "Doctorate or higher."
+
+#: templates/edit_profile.html:66
+msgid "میزان آشنایی با فناوری"
+msgstr "Technology familiarity level."
+
+#: templates/edit_profile.html:67 templates/register.html:105
+#: templates/register.html:107
+msgid "آشنایی با فناوری"
+msgstr "Familiarity with technology."
+
+#: templates/edit_profile.html:69 templates/register.html:109
+msgid "کم"
+msgstr "Low."
+
+#: templates/edit_profile.html:70 templates/register.html:110
+msgid "متوسط"
+msgstr "Medium."
+
+#: templates/edit_profile.html:71 templates/register.html:111
+msgid "زیاد"
+msgstr "High."
+
+#: templates/edit_profile.html:76 templates/withdraw.html:52
+msgid "انصراف"
+msgstr "Cancel."
+
+#: templates/edit_profile.html:77
+msgid "ذخیره تغییرات"
+msgstr "Save changes."
+
+#: templates/layout.html:6
+msgid "پروژه پژوهشی Q1"
+msgstr "Q1 Research Project."
+
+#: templates/layout.html:35 templates/register.html:123
+msgid "شرایط و قوانین"
+msgstr "Terms and conditions."
+
+#: templates/layout.html:36 templates/privacy.html:3 templates/privacy.html:17
+#: templates/register.html:125
+msgid "سیاست حریم خصوصی"
+msgstr "Privacy policy."
+
+#: templates/includes/_navbar.html:31 templates/leaderboard.html:3
+msgid "جدول امتیازات"
+msgstr "Leaderboard."
+
+#: templates/leaderboard.html:7
+msgid "جدول امتیازات هفتگی"
+msgstr "Weekly leaderboard."
+
+#: templates/leaderboard.html:8
+msgid "برترین گزارشگران این هفته را ببینید!"
+msgstr "See the top reporters of this week!"
+
+#: templates/leaderboard.html:19
+msgid "رتبه"
+msgstr "Rank."
+
+#: templates/leaderboard.html:20 templates/login.html:16
+#: templates/login.html:24 templates/register.html:17
+#: templates/register.html:24
+msgid "نام کاربری"
+msgstr "Username."
+
+#: templates/leaderboard.html:21
+msgid "گزارش‌های تایید شده"
+msgstr "Approved reports."
+
+#: templates/leaderboard.html:45
+msgid "رتبه شما در این هفته:"
+msgstr "Your rank this week:"
+
+#: templates/leaderboard.html:49
+msgid "شما در این هفته گزارشی ثبت نکرده‌اید و در جدول رتبه‌بندی قرار ندارید."
+msgstr "You have not submitted any reports this week and are not ranked."
+
+#: templates/includes/_navbar.html:124 templates/login.html:3
+#: templates/login.html:40
+msgid "ورود"
+msgstr "Login."
+
+#: templates/login.html:10
+msgid "ورود به حساب کاربری"
+msgstr "Log in to your account."
+
+#: templates/login.html:28 templates/login.html:35 templates/register.html:39
+#: templates/register.html:46
+msgid "رمز عبور"
+msgstr "Password."
+
+#: templates/login.html:47
+msgid "حساب کاربری ندارید؟"
+msgstr "Don't have an account?"
+
+#: templates/login.html:48
+msgid "ثبت‌نام کنید"
+msgstr "Register."
+
+#: templates/notifications.html:3 templates/notifications.html:10
+msgid "نوتیفیکیشن‌ها"
+msgstr "Notifications."
+
+#: templates/notifications.html:14
+msgid "بازگشت به پنل ادمین"
+msgstr "Back to admin panel."
+
+#: templates/notifications.html:18
+msgid "بازگشت به داشبورد"
+msgstr "Back to dashboard."
+
+#: templates/notifications.html:28
+msgid "نوتیفیکیشن"
+msgstr "Notification."
+
+#: templates/notifications.html:32
+msgid "نامشخص"
+msgstr "Unknown."
+
+#: templates/notifications.html:40
+msgid "هیچ نوتیفیکیشنی ندارید."
+msgstr "You have no notifications."
+
+#: templates/notifications.html:42
+msgid "ثبت اولین گزارش"
+msgstr "Submit your first report."
+
+#: templates/privacy.html:19
+msgid "حفظ حریم خصوصی شما برای ما از اهمیت بالایی برخوردار است. این سند توضیح می‌دهد که چه اطلاعاتی را جمع‌آوری می‌کنیم و چگونه از آن استفاده می‌کنیم."
+msgstr "Your privacy is very important to us. This document explains what information we collect and how we use it."
+
+#: templates/privacy.html:22
+msgid "جمع‌آوری اطلاعات"
+msgstr "Information collection."
+
+#: templates/privacy.html:24
+msgid "ما اطلاعاتی را که شما مستقیماً هنگام ثبت‌نام و ثبت گزارش ارائه می‌دهید، جمع‌آوری می‌کنیم. این اطلاعات شامل نام کاربری، ایمیل، اطلاعات جمعیت‌شناختی اختیاری، و جزئیات گزارش‌های شما (شرح، تصویر، موقعیت مکانی) است."
+msgstr "We collect information you directly provide during registration and reporting. This includes username, email, optional demographic info, and report details (description, image, location)."
+
+#: templates/privacy.html:27
+msgid "استفاده از اطلاعات"
+msgstr "Use of information."
+
+#: templates/privacy.html:28
+msgid "اطلاعات جمع‌آوری شده صرفاً برای اهداف پژوهشی زیر استفاده می‌شود:"
+msgstr "The collected information is used solely for the following research purposes:"
+
+#: templates/privacy.html:30
+msgid "تحلیل تفاوت‌های رفتاری بین گروه‌های مختلف پژوهشی."
+msgstr "Analyzing behavioral differences among research groups."
+
+#: templates/privacy.html:31
+msgid "ارزیابی اثربخشی مدل‌های مختلف انگیزشی."
+msgstr "Evaluating the effectiveness of different motivational models."
+
+#: templates/privacy.html:32
+msgid "بهبود سیستم‌های مشارکت شهروندی."
+msgstr "Improving citizen participation systems."
+
+#: templates/privacy.html:33
+msgid "ارتباط با شما در مورد وضعیت گزارش‌ها و اطلاعیه‌های مربوط به پروژه."
+msgstr "Communicating with you about report statuses and project announcements."
+
+#: templates/privacy.html:36
+msgid "اشتراک‌گذاری اطلاعات"
+msgstr "Information sharing."
+
+#: templates/privacy.html:38
+msgid "ما اطلاعات شخصی شما را تحت هیچ شرایطی با شخص ثالثی به اشتراک نمی‌گذاریم، مگر در مواردی که به حکم قانون ملزم به این کار باشیم. نتایج پژوهش فقط به صورت آماری، تجمعی و کاملاً ناشناس منتشر خواهد شد."
+msgstr "We never share your personal information with third parties unless required by law. Research results will be published only in aggregated, statistical, and fully anonymous form."
+
+#: templates/privacy.html:41
+msgid "امنیت داده‌ها"
+msgstr "Data security."
+
+#: templates/privacy.html:43
+msgid "ما از اقدامات امنیتی استاندارد برای محافظت از اطلاعات شما در برابر دسترسی غیرمجاز، تغییر، افشا یا تخریب استفاده می‌کنیم."
+msgstr "We use standard security measures to protect your information against unauthorized access, alteration, disclosure, or destruction."
+
+#: templates/includes/_navbar.html:91 templates/profile.html:3
+msgid "پروفایل من"
+msgstr "My profile."
+
+#: templates/includes/_navbar.html:76 templates/profile.html:25
+msgid "آواتار"
+msgstr "Avatar."
+
+#: templates/profile.html:30
+msgid "گروه پژوهشی:"
+msgstr "Research group:"
+
+#: templates/profile.html:48
+msgid "نشان‌های من"
+msgstr "My badges."
+
+#: templates/profile.html:62
+msgid "شما هنوز نشانی دریافت نکرده‌اید."
+msgstr "You have not received any badges yet."
+
+#: templates/profile.html:76
+msgid "موجودی کیف پول"
+msgstr "Wallet balance."
+
+#: templates/includes/_navbar.html:45 templates/profile.html:77
+#: templates/withdraw.html:17
+msgid "تومان"
+msgstr "Toman."
+
+#: templates/profile.html:87
+msgid "امتیاز ستاره"
+msgstr "Star points."
+
+#: templates/profile.html:98
+msgid "آمار مشارکت"
+msgstr "Participation statistics."
+
+#: templates/profile.html:101
+msgid "گزارشات کل"
+msgstr "Total reports."
+
+#: templates/includes/_report_card.html:66 templates/profile.html:105
+msgid "تایید شده"
+msgstr "Approved."
+
+#: templates/profile.html:109
+msgid "نرخ موفقیت"
+msgstr "Success rate."
+
+#: templates/profile.html:119
+msgid "تاریخچه پاداش‌ها"
+msgstr "Reward history."
+
+#: templates/profile.html:125
+msgid "نوع پاداش"
+msgstr "Reward type."
+
+#: templates/profile.html:126
+msgid "مقدار"
+msgstr "Amount."
+
+#: templates/profile.html:127
+msgid "شناسه گزارش"
+msgstr "Report ID."
+
+#: templates/profile.html:128
+msgid "تاریخ"
+msgstr "Date."
+
+#: templates/profile.html:136
+msgid "مالی"
+msgstr "Financial."
+
+#: templates/profile.html:138
+msgid "ستاره"
+msgstr "Star."
+
+#: templates/profile.html:150
+msgid "تاریخچه‌ای برای نمایش وجود ندارد."
+msgstr "No history to display."
+
+#: templates/includes/_navbar.html:129 templates/register.html:3
+#: templates/register.html:131
+msgid "ثبت‌نام"
+msgstr "Register."
+
+#: templates/register.html:10
+msgid "ایجاد حساب کاربری جدید"
+msgstr "Create a new account."
+
+#: templates/register.html:28 templates/register.html:35
+msgid "ایمیل"
+msgstr "Email."
+
+#: templates/register.html:49
+msgid "حداقل ۸ کاراکتر، شامل حروف و اعداد."
+msgstr "At least 8 characters, including letters and numbers."
+
+#: templates/register.html:55
+msgid "اطلاعات جمعیت‌شناختی (اختیاری)"
+msgstr "Demographic information (optional)."
+
+#: templates/register.html:73
+msgid "انتخاب کنید"
+msgstr "Select."
+
+#: templates/register.html:76
+msgid "غیره"
+msgstr "Other."
+
+#: templates/register.html:122
+msgid "من"
+msgstr "I."
+
+#: templates/register.html:124
+msgid "و"
+msgstr "and."
+
+#: templates/register.html:126
+msgid "را مطالعه کرده و با آن موافقم."
+msgstr "I have read and agree to the."
+
+#: templates/register.html:136
+msgid "قبلاً ثبت‌نام کرده‌اید؟"
+msgstr "Already registered?"
+
+#: templates/register.html:137
+msgid "وارد شوید"
+msgstr "Log in."
+
+#: templates/select_language.html:3
+msgid "انتخاب زبان"
+msgstr "Select language."
+
+#: templates/select_language.html:12
+msgid "Select Language / زبان خود را انتخاب کنید"
+msgstr "Select Language / Choose your language."
+
+#: templates/select_language.html:16
+msgid "Please select your preferred language."
+msgstr "Please select your preferred language."
+
+#: templates/select_language.html:28
+msgid "English"
+msgstr "English."
+
+#: templates/select_language.html:37
+msgid "فارسی"
+msgstr "Persian."
+
+#: templates/terms.html:3 templates/terms.html:20
+msgid "شرایط و قوانین استفاده"
+msgstr "Terms of use."
+
+#: templates/terms.html:22
+msgid "استفاده شما از این سامانه به منزله پذیرش کامل شرایط و قوانین زیر است."
+msgstr "Your use of this system constitutes full acceptance of the following terms and conditions."
+
+#: templates/terms.html:25
+msgid "۱. هدف پروژه"
+msgstr "1. Project purpose."
+
+#: templates/terms.html:27
+msgid "این سامانه یک ابزار پژوهشی برای مطالعه مشارکت شهروندی است. داده‌های جمع‌آوری شده صرفاً برای اهداف علمی و تحقیقاتی استفاده خواهند شد."
+msgstr "This system is a research tool to study citizen participation. Collected data will be used solely for scientific and research purposes."
+
+#: templates/terms.html:30
+msgid "۲. تعهدات کاربر"
+msgstr "2. User commitments."
+
+#: templates/terms.html:32
+msgid "کاربران متعهد می‌شوند که اطلاعات صحیح و دقیق در هنگام ثبت‌نام و ارسال گزارش وارد کنند."
+msgstr "Users commit to providing accurate and truthful information during registration and report submission."
+
+#: templates/terms.html:33
+msgid "محتوای گزارش‌های ارسالی (متن و تصویر) باید مطابق با قوانین کشور بوده و عاری از هرگونه محتوای توهین‌آمیز، خشونت‌آمیز یا غیرقانونی باشد."
+msgstr "The content of submitted reports (text and images) must comply with national laws and be free of offensive, violent, or illegal content."
+
+#: templates/terms.html:34
+msgid "هر کاربر مجاز به داشتن تنها یک حساب کاربری است."
+msgstr "Each user is allowed only one account."
+
+#: templates/terms.html:37
+msgid "۳. مالکیت محتوا"
+msgstr "3. Content ownership."
+
+#: templates/terms.html:39
+msgid "مالکیت معنوی گزارش‌های ارسالی (بدون ذکر نام و اطلاعات شخصی) در اختیار تیم پژوهشی پروژه قرار می‌گیرد تا برای تحلیل‌های آماری و انتشار نتایج علمی استفاده شود."
+msgstr "Intellectual property of submitted reports (without personal names or info) belongs to the project research team for statistical analysis and scientific publication."
+
+#: templates/terms.html:42
+msgid "۴. محدودیت مسئولیت"
+msgstr "4. Limitation of liability."
+
+#: templates/terms.html:44
+msgid "تیم پروژه هیچ مسئولیتی در قبال صحت‌سنجی گزارش‌های ارسالی توسط کاربران ندارد. با این حال، گزارش‌های نامناسب پس از بررسی حذف خواهند شد."
+msgstr "The project team is not responsible for verifying the accuracy of user-submitted reports. However, inappropriate reports will be removed after review."
+
+#: templates/terms.html:47
+msgid "۵. خاتمه همکاری"
+msgstr "5. Termination of cooperation."
+
+#: templates/terms.html:49
+msgid "در صورت عدم رعایت قوانین، تیم پروژه مجاز است حساب کاربری فرد خاطی را بدون اطلاع قبلی مسدود نماید. شما نیز می‌توانید در هر زمان درخواست حذف حساب کاربری خود را ثبت کنید."
+msgstr "In case of rule violations, the project team may block the offending user's account without prior notice. You may also request account deletion at any time."
+
+#: templates/includes/_navbar.html:25 templates/top_reports.html:3
+#: templates/top_reports.html:7
+msgid "گزارش‌های برتر"
+msgstr "Top reports."
+
+#: templates/top_reports.html:8
+msgid "مشارکت‌های برتر جامعه را مشاهده کنید."
+msgstr "See the top community contributions."
+
+#: templates/top_reports.html:16
+msgid "محبوب‌ترین‌ها"
+msgstr "Most popular."
+
+#: templates/top_reports.html:23
+msgid "لایک"
+msgstr "Like."
+
+#: templates/top_reports.html:32 templates/top_reports.html:54
+msgid "هنوز گزارشی برای نمایش در این بخش وجود ندارد."
+msgstr "No reports to display in this section yet."
+
+#: templates/top_reports.html:38
+msgid "پربحث‌ترین‌ها"
+msgstr "Most discussed."
+
+#: templates/top_reports.html:45
+msgid "کامنت"
+msgstr "Comment."
+
+#: templates/includes/_navbar.html:108 templates/withdraw.html:3
+msgid "برداشت وجه"
+msgstr "Withdraw funds."
+
+#: templates/withdraw.html:10
+msgid "ثبت درخواست برداشت وجه"
+msgstr "Submit withdrawal request."
+
+#: templates/withdraw.html:16
+msgid "موجودی قابل برداشت شما:"
+msgstr "Your available balance:"
+
+#: templates/withdraw.html:26
+msgid "مبلغ برداشت (به تومان)"
+msgstr "Withdrawal amount (in toman)."
+
+#: templates/withdraw.html:42
+msgid "توجه:"
+msgstr "Note:"
+
+#: templates/withdraw.html:43
+msgid "مبلغ درخواستی به شماره شبای ثبت شده شما واریز خواهد شد."
+msgstr "The requested amount will be transferred to your registered IBAN."
+
+#: templates/withdraw.html:46
+msgid "از صحت اطلاعات حساب خود اطمینان حاصل کنید."
+msgstr "Please ensure your account information is correct."
+
+#: templates/withdraw.html:57
+msgid "ثبت درخواست"
+msgstr "Submit request."
+
+#: templates/withdraw.html:64
+msgid "برای ثبت درخواست برداشت، ابتدا اطلاعات حساب بانکی خود را تکمیل کنید."
+msgstr "To submit a withdrawal request, please complete your bank account information first."
+
+#: templates/withdraw.html:67
+msgid "تکمیل / ویرایش حساب بانکی"
+msgstr "Complete / Edit bank account."
+
+#: templates/includes/_flash_messages.html:14
+#: templates/includes/_report_card.html:31
+msgid "بستن"
+msgstr "Close."
+
+#: templates/includes/_report_card.html:11
+#: templates/includes/_report_card.html:26
+#: templates/includes/_report_card.html:40
+msgid "تصویر گزارش"
+msgstr "Report image."
+
+#: templates/includes/_report_card.html:36
+msgid "در حال بارگذاری..."
+msgstr "Loading..."
+
+#: templates/includes/_report_card.html:51
+msgid "توسط:"
+msgstr "By:"
+
+#: templates/includes/_report_card.html:68
+msgid "رد شده"
+msgstr "Rejected."
+
+#: templates/includes/_report_card.html:70
+msgid "در انتظار"
+msgstr "Pending."
+
+#: templates/includes/_report_card.html:75
+msgid "پسندیدن"
+msgstr "Like."
+
+#: templates/includes/_report_card.html:85
+msgid "کامنت‌ها"
+msgstr "Comments."
+
+#: templates/includes/_report_card.html:99
+msgid "هنوز کامنتی ثبت نشده است."
+msgstr "No comments have been posted yet."
+
+#: templates/includes/_report_card.html:106
+msgid "نظر خود را بنویسید..."
+msgstr "Write your comment..."
+
+#: templates/includes/_report_card.html:107
+msgid "ارسال"
+msgstr "Send."

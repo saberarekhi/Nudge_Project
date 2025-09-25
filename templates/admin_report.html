@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+
+{% block title %}مشاهده گزارش - پنل مدیریت{% endblock %}
+
+{% block styles %}
+<style>
+    .comment-box {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .comment {
+        border-bottom: 1px solid #eee;
+        padding: 10px 0;
+    }
+    .comment:last-child {
+        border-bottom: none;
+    }
+    #map {
+        height: 400px;
+        border-radius: .375rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">مشاهده گزارش #{{ report.id }}</h1>
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-secondary">بازگشت به پنل</a>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Report Details -->
+        <div class="card mb-4">
+            <div class="card-header"><h5>جزئیات گزارش</h5></div>
+            <div class="card-body">
+                <p><strong>توضیحات:</strong></p>
+                <p class="mb-3">{{ report.description }}</p>
+
+                <hr>
+
+                <p><strong>وضعیت:</strong>
+                    {% if report.status == 'approved' %}
+                        <span class="badge bg-success">تایید شده</span>
+                    {% elif report.status == 'rejected' %}
+                        <span class="badge bg-danger">رد شده</span>
+                    {% else %}
+                        <span class="badge bg-warning">در انتظار</span>
+                    {% endif %}
+                </p>
+
+                <p><strong>تاریخ:</strong> {{ report.timestamp.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p>
+                    <strong>کاربر:</strong>
+                    <a href="{{ url_for('admin_view_user', user_id=report.author.id) }}">
+                        {{ report.author.username }}
+                    </a>
+                    (گروه {{ report.author.research_group }})
+                </p>
+
+                <p>
+                    <strong>تعداد لایک:</strong>
+                    <span class="badge bg-primary">{{ report.likes|length }}</span>
+                </p>
+
+                {% if report.image_filename %}
+                    <p class="mt-3">
+                        <strong>تصویر:</strong><br>
+                        <img src="{{ url_for('uploaded_file',
+                                              user_id=report.author.id,
+                                              filename=report.image_filename) }}"
+                             alt="تصویر گزارش"
+                             class="img-fluid rounded"
+                             onerror="this.src='{{ url_for('static', filename='img/placeholder.png') }}'">
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Comments -->
+        <div class="card">
+            <div class="card-header"><h5>کامنت‌ها ({{ report.comments|length }})</h5></div>
+            <div class="card-body comment-box">
+                {% if report.comments %}
+                    {% for comment in report.comments %}
+                        <div class="comment">
+                            <p class="mb-1"><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
+                            <small class="text-muted">{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center text-muted">کامنتی برای این گزارش ثبت نشده است.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <!-- Map -->
+        <div class="card">
+            <div class="card-header"><h5>موقعیت مکانی</h5></div>
+            <div class="card-body">
+                {% if report.latitude and report.longitude %}
+                    <noscript>
+                        <p class="text-danger">برای مشاهده نقشه، جاوااسکریپت را فعال کنید.</p>
+                    </noscript>
+                    <div id="map"></div>
+                {% else %}
+                    <p class="text-center text-muted">موقعیت مکانی ثبت نشده است.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if report.latitude and report.longitude %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const coords = {{ [report.latitude, report.longitude] | tojson }};
+    const map = L.map('map').setView(coords, 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker(coords).addTo(map).bindPopup('موقعیت گزارش').openPopup();
+});
+</script>
+{% endif %}
+{% endblock %}

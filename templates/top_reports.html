@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('گزارش‌های برتر') }}{% endblock %}
+
+{% block content %}
+<div class="text-center my-5">
+  <h1 class="display-5">🌟 {{ _('گزارش‌های برتر') }}</h1>
+  <p class="lead">{{ _('مشارکت‌های برتر جامعه را مشاهده کنید.') }}</p>
+</div>
+
+{# ماکروی کارت گزارش در ابتدای بلوک محتوا وارد می‌شود #}
+{% from 'includes/_report_card.html' import report_card %}
+
+<div class="row g-4">
+  <div class="col-12 col-lg-6">
+    <h2 class="h4 mb-3 text-center">❤️ {{ _('محبوب‌ترین‌ها') }}</h2>
+
+    {% if top_liked %}
+      <div class="reports-grid">
+        {% for report, likes_count in top_liked %}
+          <div class="report-card position-relative">
+            <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger z-1">
+              {{ likes_count }} {{ _('لایک') }}
+            </span>
+            {# FIX: Calling the macro instead of including the file #}
+            {{ report_card(report, current_user) }}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center">
+        {{ _('هنوز گزارشی برای نمایش در این بخش وجود ندارد.') }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="col-12 col-lg-6">
+    <h2 class="h4 mb-3 text-center">💬 {{ _('پربحث‌ترین‌ها') }}</h2>
+
+    {% if top_commented %}
+      <div class="reports-grid">
+        {% for report, comments_count in top_commented %}
+          <div class="report-card position-relative">
+            <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-primary z-1">
+              {{ comments_count }} {{ _('کامنت') }}
+            </span>
+            {# FIX: Calling the macro instead of including the file #}
+            {{ report_card(report, current_user) }}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center">
+        {{ _('هنوز گزارشی برای نمایش در این بخش وجود ندارد.') }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

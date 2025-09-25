@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ _('پروفایل من') }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+  .avatar-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <!-- Left column -->
+    <div class="col-lg-4">
+      <!-- Avatar & quick links -->
+      <div class="card mb-4 text-center">
+        <div class="card-body">
+          <img src="https://api.dicebear.com/8.x/initials/svg?seed={{ user.username }}"
+               alt="{{ _('آواتار') }} {{ user.username }}"
+               class="rounded-circle img-fluid avatar-img"
+               onerror="this.src='{{ url_for('static', filename='img/default-avatar.svg') }}'">
+          <h5 class="my-3">{{ user.username }}</h5>
+          <p class="text-muted mb-1">
+            {{ _('گروه پژوهشی:') }} <strong>{{ user.research_group }}</strong>
+          </p>
+          <p class="text-muted mb-3">{{ user.email }}</p>
+
+          <div class="d-flex justify-content-center gap-2">
+            <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">
+              {{ _('ویرایش پروفایل') }}
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">
+              {{ _('داشبورد') }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ _('نشان‌های من') }}</h5>
+          {% if user.badges %}
+            <ul class="list-unstyled">
+              {% for badge in user.badges %}
+              <li class="d-flex align-items-center mb-2">
+                <span class="fs-4 me-2">{{ badge.icon }}</span>
+                <div>
+                  <strong>{{ _(badge.name) }}</strong>
+                  <small class="d-block text-muted">{{ _(badge.description_key) }}</small>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-muted">{{ _('شما هنوز نشانی دریافت نکرده‌اید.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-lg-8">
+      <!-- Quick stats -->
+      <div class="row">
+        {% if user.research_group in ['M', 'H'] %}
+        <div class="col-md-6 mb-4">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <h5 class="card-title">💰 {{ _('موجودی کیف پول') }}</h5>
+              <p class="display-6 fw-bold">{{ "{:,.0f}".format(user.balance) }} {{ _('تومان') }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if user.research_group in ['N', 'H'] %}
+        <div class="col-md-6 mb-4">
+          <div class="card text-center h-100">
+            <div class="card-body">
+              <h5 class="card-title">⭐ {{ _('امتیاز ستاره') }}</h5>
+              <p class="display-6 fw-bold">{{ user.stars }}</p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Participation stats -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4">{{ _('آمار مشارکت') }}</h5>
+          <div class="row text-center">
+            <div class="col-sm-4 border-end">
+              <h6>{{ _('گزارشات کل') }}</h6>
+              <p class="fs-4 mb-0">{{ stats.total }}</p>
+            </div>
+            <div class="col-sm-4 border-end">
+              <h6>{{ _('تایید شده') }}</h6>
+              <p class="fs-4 mb-0">{{ stats.approved }}</p>
+            </div>
+            <div class="col-sm-4">
+              <h6>{{ _('نرخ موفقیت') }}</h6>
+              <p class="fs-4 mb-0">{{ stats.rate }}%</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reward history -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">{{ _('تاریخچه پاداش‌ها') }}</h5>
+          {% if history %}
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">{{ _('نوع پاداش') }}</th>
+                    <th scope="col">{{ _('مقدار') }}</th>
+                    <th scope="col">{{ _('شناسه گزارش') }}</th>
+                    <th scope="col">{{ _('تاریخ') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for log in history %}
+                  <tr>
+                    <td>
+                      {% if log.reward_type == 'balance' %}
+                        <span class="badge bg-success">{{ _('مالی') }}</span>
+                      {% elif log.reward_type == 'stars' %}
+                        <span class="badge bg-warning text-dark">{{ _('ستاره') }}</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ log.amount }}</td>
+                    <td>{{ log.report_id or '-' }}</td>
+                    <td>{{ log.timestamp.strftime('%Y-%m-%d') if log.timestamp else '-' }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p class="text-muted">{{ _('تاریخچه‌ای برای نمایش وجود ندارد.') }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

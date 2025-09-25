@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('نوتیفیکیشن‌ها') }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2">{{ _('نوتیفیکیشن‌ها') }}</h1>
+
+        {% if session.is_admin %}
+          <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary">
+            {{ _('بازگشت به پنل ادمین') }}
+          </a>
+        {% else %}
+          <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+            {{ _('بازگشت به داشبورد') }}
+          </a>
+        {% endif %}
+      </div>
+
+      {% if notifications %}
+        <div class="list-group">
+          {% for notification in notifications %}
+            <div
+              class="list-group-item list-group-item-action {% if not notification.is_read %}list-group-item-primary{% endif %}"
+              aria-label="{{ _('نوتیفیکیشن') }} {{ loop.index }}">
+              <div class="d-flex w-100 justify-content-between">
+                <p class="mb-1">{{ notification.message }}</p>
+                <small class="text-muted">
+                  {{ notification.timestamp.strftime('%Y-%m-%d %H:%M') if notification.timestamp else _('نامشخص') }}
+                </small>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-info text-center">
+          <p>{{ _('هیچ نوتیفیکیشنی ندارید.') }}</p>
+          {% if not session.is_admin %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-2">{{ _('ثبت اولین گزارش') }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('جدول امتیازات') }}{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+  <h1 class="display-4">🏆 {{ _('جدول امتیازات هفتگی') }} 🏆</h1>
+  <p class="lead">{{ _('برترین گزارشگران این هفته را ببینید!') }}</p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col" class="text-center">{{ _('رتبه') }}</th>
+                <th scope="col">{{ _('نام کاربری') }}</th>
+                <th scope="col" class="text-center">{{ _('گزارش‌های تایید شده') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user, count in top_users %}
+              <tr {% if user.id == session['user_id'] %}class="table-info fw-bold"{% endif %}>
+                <th scope="row" class="text-center">
+                  {# رتبه با مدال SVG #}
+                  {% if loop.index == 1 %}🥇
+                  {% elif loop.index == 2 %}🥈
+                  {% elif loop.index == 3 %}🥉
+                  {% else %}{{ loop.index }}
+                  {% endif %}
+                </th>
+                <td>{{ user.username }}</td>
+                <td class="text-center">{{ count }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        {% if user_rank > 0 %}
+        <div class="alert alert-info text-center mt-3" role="alert">
+          {{ _('رتبه شما در این هفته:') }} <strong>{{ user_rank }}</strong>
+        </div>
+        {% else %}
+        <div class="alert alert-warning text-center mt-3" role="alert">
+          {{ _('شما در این هفته گزارشی ثبت نکرده‌اید و در جدول رتبه‌بندی قرار ندارید.') }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

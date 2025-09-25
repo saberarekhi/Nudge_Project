@@ -1,0 +1,450 @@
+{% extends 'layout.html' %}
+
+{% block title %}پنل مدیریت{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* استایل‌های جزئی برای بهبود ظاهر پنل ادمین */
+    .admin-filter-section {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+    .admin-filter-section .form-label {
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+    <h1 class="h2">داشبورد مدیریت</h1>
+
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('notifications') }}" class="btn btn-sm btn-outline-info position-relative me-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill me-1" viewBox="0 0 16 16">
+              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+            </svg>
+            اعلان‌ها
+            {% if unread_notifications > 0 %}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ unread_notifications }}
+            </span>
+            {% endif %}
+        </a>
+
+        <div class="btn-group me-3">
+             <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#sendMessageModal">
+                ارسال پیام گروهی
+            </button>
+            <form method="post" action="{{ url_for('run_smart_nudge') }}" class="d-inline">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button type="submit" class="btn btn-sm btn-outline-primary">ارسال تلنگر هوشمند</button>
+            </form>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-1" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                دریافت خروجی
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ url_for('export_users_csv') }}">خروجی کاربران (CSV)</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('export_reports_csv') }}">خروجی گزارشات (CSV)</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('export_comments_csv') }}">خروجی کامنت‌ها (CSV)</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('export_likes_csv') }}">خروجی لایک‌ها (CSV)</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title fw-bold">{{ stats.total_users or 0 }}</h4>
+                <p class="card-text text-muted">کاربران کل</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title fw-bold">{{ stats.total_reports or 0 }}</h4>
+                <p class="card-text text-muted">گزارشات کل</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title fw-bold">{{ (stats.approval_rate or 0) }}%</h4>
+                <p class="card-text text-muted">نرخ تایید</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title fw-bold">{{ (stats.avg_reports or 0) | round(2) }}</h4>
+                <p class="card-text text-muted">میانگین گزارش/کاربر</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5>پراکندگی کاربران بر اساس گروه</h5></div>
+            <div class="card-body" style="height: 250px;">
+                <canvas id="usersPieChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5>گزارشات ۷ روز اخیر</h5></div>
+            <div class="card-body" style="height: 250px;">
+                <canvas id="reportsBarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5>درخواست‌های برداشت در انتظار بررسی</h5>
+            </div>
+            <div class="card-body">
+                {% if pending_withdrawals %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>کاربر</th>
+                                <th>مبلغ (تومان)</th>
+                                <th>تاریخ درخواست</th>
+                                <th>اطلاعات حساب</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in pending_withdrawals %}
+                            <tr>
+                                <td>{{ req.id }}</td>
+                                <td>{{ req.user.username }}</td>
+                                <td>{{ "{:,.0f}".format(req.amount) }}</td>
+                                <td>{{ req.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin_view_user', user_id=req.user.id) }}" class="btn btn-sm btn-secondary">
+                                        مشاهده
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('admin_review_withdrawal', request_id=req.id, action='approve') }}"
+                                           class="btn btn-success"
+                                           onclick="return confirm('آیا از تایید و پرداخت این درخواست مطمئن هستید؟')">
+                                            تایید و پرداخت
+                                        </a>
+                                        <a href="{{ url_for('admin_review_withdrawal', request_id=req.id, action='reject') }}"
+                                           class="btn btn-danger"
+                                           onclick="return confirm('آیا از رد این درخواست و بازگرداندن وجه به کاربر مطمئن هستید؟')">
+                                            رد کردن
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">در حال حاضر هیچ درخواست برداشتی در انتظار نیست.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header"><h5>نقشه گرمایی گزارشات</h5></div>
+            <div class="card-body">
+                <div id="heatmap" style="height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header">
+                <h5>لیست کاربران</h5>
+            </div>
+            <div class="card-body">
+                <form method="get" class="mb-3 admin-filter-section">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-sm-6">
+                            <label for="user_search" class="form-label">جستجوی کاربر</label>
+                            <input type="text" name="user_search" id="user_search" class="form-control form-control-sm"
+                                   placeholder="نام کاربری..." value="{{ filters.user_search or '' }}">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="user_group" class="form-label">گروه</label>
+                            <select name="user_group" id="user_group" class="form-select form-select-sm">
+                                <option value="">همه</option>
+                                <option value="C" {% if filters.user_group == 'C' %}selected{% endif %}>C</option>
+                                <option value="M" {% if filters.user_group == 'M' %}selected{% endif %}>M</option>
+                                <option value="N" {% if filters.user_group == 'N' %}selected{% endif %}>N</option>
+                                <option value="H" {% if filters.user_group == 'H' %}selected{% endif %}>H</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-sm btn-primary">فیلتر</button>
+                         </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>نام کاربری</th>
+                                <th>گروه</th>
+                                <th>موجودی</th>
+                                <th>ستاره</th>
+                                <th>عملیات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.research_group }}</td>
+                                <td>{{ user.balance or 0 }}</td>
+                                <td>{{ user.stars or 0 }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin_view_user', user_id=user.id) }}" class="btn btn-sm btn-info">مشاهده</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header">
+                <h5>لیست گزارشات</h5>
+            </div>
+             <div class="card-body">
+                <form method="get" class="mb-3 admin-filter-section">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-sm-4">
+                            <label for="report_search" class="form-label">جستجوی گزارش</label>
+                            <input type="text" name="report_search" id="report_search" class="form-control form-control-sm"
+                                   placeholder="توضیحات..." value="{{ filters.report_search or '' }}">
+                        </div>
+                        <div class="col-sm-3">
+                             <label for="report_status" class="form-label">وضعیت</label>
+                            <select name="report_status" id="report_status" class="form-select form-select-sm">
+                                <option value="">همه</option>
+                                <option value="pending" {% if filters.report_status == 'pending' %}selected{% endif %}>در انتظار</option>
+                                <option value="approved" {% if filters.report_status == 'approved' %}selected{% endif %}>تایید شده</option>
+                                <option value="rejected" {% if filters.report_status == 'rejected' %}selected{% endif %}>رد شده</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                             <label for="report_group" class="form-label">گروه</label>
+                            <select name="report_group" id="report_group" class="form-select form-select-sm">
+                                <option value="">همه</option>
+                                <option value="C" {% if filters.report_group == 'C' %}selected{% endif %}>C</option>
+                                <option value="M" {% if filters.report_group == 'M' %}selected{% endif %}>M</option>
+                                <option value="N" {% if filters.report_group == 'N' %}selected{% endif %}>N</option>
+                                <option value="H" {% if filters.report_group == 'H' %}selected{% endif %}>H</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                             <button type="submit" class="btn btn-sm btn-primary">فیلتر</button>
+                         </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>کاربر</th>
+                                <th>وضعیت</th>
+                                <th>عملیات</th>
+                            </tr>
+                      <thead>
+    <tr>
+        <th>کد گزارش</th>
+        <th>کاربر</th>
+        <th>وضعیت</th>
+        <th>عملیات</th>
+    </tr>
+</thead>
+<tbody>
+    {% for report in reports %}
+    <tr>
+        <td>{{ report.report_code or report.id }}</td>
+        <td>{{ report.author.username or '-' }}</td>
+        <td>
+            {% if report.status == 'approved' %}
+            <span class="badge bg-success">تایید شده</span>
+            {% elif report.status == 'rejected' %}
+            <span class="badge bg-danger">رد شده</span>
+            {% else %}
+            <span class="badge bg-warning text-dark">در انتظار</span>
+            {% endif %}
+        </td>
+        <td>
+            <div class="btn-group btn-group-sm">
+                <a href="{{ url_for('admin_view_report', report_id=report.id) }}" class="btn btn-info">مشاهده</a>
+                {% if report.status == 'pending' %}
+                <a href="{{ url_for('review_report', report_id=report.id, action='approve') }}" class="btn btn-success">تایید</a>
+                <a href="{{ url_for('review_report', report_id=report.id, action='reject') }}" class="btn btn-danger">رد</a>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="sendMessageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ارسال پیام گروهی</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{{ url_for('admin_send_message') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="target_group" class="form-label">گروه هدف</label>
+                        <select class="form-select" id="target_group" name="target_group" required>
+                            <option value="all">همه کاربران</option>
+                            <option value="C">گروه C</option>
+                            <option value="M">گروه M</option>
+                            <option value="N">گروه N</option>
+                            <option value="H">گروه H</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message_text" class="form-label">متن پیام</label>
+                        <textarea class="form-control" id="message_text" name="message_text" rows="5" required
+                                  placeholder="متن پیامی که می‌خواهید برای کاربران ارسال کنید را اینجا بنویسید..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                    <button type="submit" class="btn btn-primary">ارسال پیام</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+document.addEventListener('DOMContentLoaded', () => {
+    // Bar Chart
+    const barCtx = document.getElementById('reportsBarChart');
+    if (barCtx) {
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ bar_chart.labels | tojson }},
+                datasets: [{
+                    label: 'تعداد گزارش‌ها',
+                    data: {{ bar_chart.data | tojson }},
+                    backgroundColor: 'rgba(0, 123, 255, 0.7)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                }
+            }
+        });
+    }
+
+    // Pie Chart
+    const pieCtx = document.getElementById('usersPieChart');
+    if (pieCtx) {
+        new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: {{ pie_chart_data.labels | tojson }},
+                datasets: [{
+                    label: 'پراکندگی کاربران',
+                    data: {{ pie_chart_data.data | tojson }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)'
+                    ]
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    }
+
+    // Heatmap
+    const heatmapEl = document.getElementById('heatmap');
+    const heatmapData = {{ heatmap_data | tojson }};
+    if (heatmapEl && heatmapData?.length) {
+        const map = L.map('heatmap').setView([35.6892, 51.3890], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.heatLayer(heatmapData, {
+            radius: 25,
+            blur: 15,
+            maxZoom: 18,
+            gradient: { 0.4: 'blue', 0.6: 'cyan', 0.7: 'lime', 0.8: 'yellow', 1.0: 'red' }
+        }).addTo(map);
+    } else if (heatmapEl) {
+        heatmapEl.innerHTML = '<div class="text-center p-5"><p>داده‌ای برای نمایش نقشه حرارتی وجود ندارد.</p></div>';
+    }
+});
+</script>
+{% endblock %}

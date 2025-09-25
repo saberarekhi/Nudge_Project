@@ -1,0 +1,18 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% set icon_map = {
+        'error'  : 'danger',
+        'success': 'success',
+        'warning': 'warning',
+        'info'   : 'info'
+    } %}
+
+    {% for category, message in messages %}
+      {% set alert_class = icon_map.get(category, category) %}
+      <div class="alert alert-{{ alert_class }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ _('بستن') }}"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}

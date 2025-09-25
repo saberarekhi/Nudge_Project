@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('ویرایش پروفایل') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow">
+      <div class="card-header">
+        <h4>{{ _('ویرایش اطلاعات پروفایل') }}</h4>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('edit_profile') }}" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="age" class="form-label">{{ _('سن') }}</label>
+              <input type="number"
+                     class="form-control"
+                     id="age"
+                     name="age"
+                     min="13"
+                     max="120"
+                     value="{{ user.age or '' }}"
+                     autocomplete="age"
+                     aria-label="{{ _('سن') }}">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="gender" class="form-label">{{ _('جنسیت') }}</label>
+              <select class="form-select" id="gender" name="gender" required aria-label="{{ _('جنسیت') }}">
+                <option value="" disabled {% if not user.gender %}selected{% endif %}>{{ _('انتخاب کنید...') }}</option>
+                <option value="male"   {% if user.gender == 'male' %}selected{% endif %}>{{ _('مرد') }}</option>
+                <option value="female" {% if user.gender == 'female' %}selected{% endif %}>{{ _('زن') }}</option>
+                <option value="other"  {% if user.gender == 'other' %}selected{% endif %}>{{ _('سایر') }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="occupation" class="form-label">{{ _('شغل') }}</label>
+            <input type="text"
+                   class="form-control"
+                   id="occupation"
+                   name="occupation"
+                   value="{{ user.occupation or '' }}"
+                   maxlength="100"
+                   autocomplete="organization-title"
+                   aria-label="{{ _('شغل') }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="education" class="form-label">{{ _('تحصیلات') }}</label>
+            <select class="form-select" id="education" name="education" required aria-label="{{ _('تحصیلات') }}">
+              <option value="" disabled {% if not user.education %}selected{% endif %}>{{ _('انتخاب کنید...') }}</option>
+              <option value="diploma"  {% if user.education == 'diploma' %}selected{% endif %}>{{ _('دیپلم و پایین‌تر') }}</option>
+              <option value="bachelor" {% if user.education == 'bachelor' %}selected{% endif %}>{{ _('کارشناسی') }}</option>
+              <option value="master"   {% if user.education == 'master' %}selected{% endif %}>{{ _('کارشناسی ارشد') }}</option>
+              <option value="phd"      {% if user.education == 'phd' %}selected{% endif %}>{{ _('دکتری و بالاتر') }}</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label for="tech_familiarity" class="form-label">{{ _('میزان آشنایی با فناوری') }}</label>
+            <select class="form-select" id="tech_familiarity" name="tech_familiarity" required aria-label="{{ _('آشنایی با فناوری') }}">
+              <option value="" disabled {% if not user.tech_familiarity %}selected{% endif %}>{{ _('انتخاب کنید...') }}</option>
+              <option value="low"    {% if user.tech_familiarity == 'low' %}selected{% endif %}>{{ _('کم') }}</option>
+              <option value="medium" {% if user.tech_familiarity == 'medium' %}selected{% endif %}>{{ _('متوسط') }}</option>
+              <option value="high"   {% if user.tech_familiarity == 'high' %}selected{% endif %}>{{ _('زیاد') }}</option>
+            </select>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <a href="{{ url_for('profile') }}" class="btn btn-secondary me-2">{{ _('انصراف') }}</a>
+            <button type="submit" class="btn btn-primary">{{ _('ذخیره تغییرات') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

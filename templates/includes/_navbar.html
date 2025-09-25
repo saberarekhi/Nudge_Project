@@ -1,0 +1,145 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+      {{ _('پروژه Q1') }}
+    </a>
+
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar" aria-expanded="false"
+            aria-label="{{ _('تغییر ناوبری') }}">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <!-- Left nav -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if current_user and current_user.role != 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard') }}">
+              {{ _('داشبورد') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('top_reports') }}">
+              {{ _('گزارش‌های برتر') }}
+            </a>
+          </li>
+          {% if current_user.research_group in ['N', 'H'] %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('leaderboard') }}">
+                {{ _('جدول امتیازات') }}
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+
+      <!-- Right nav -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+        {% if current_user %}
+          <!-- Balance & Stars -->
+          {% if current_user.research_group in ['M', 'H'] %}
+            <li class="nav-item">
+              <span class="nav-link text-warning">
+                💰 {{ "{:,.0f}".format(current_user.balance) }} {{ _('تومان') }}
+              </span>
+            </li>
+          {% endif %}
+          {% if current_user.research_group in ['N', 'H'] %}
+            <li class="nav-item">
+              <span class="nav-link text-warning">
+                ⭐ {{ current_user.stars }}
+              </span>
+            </li>
+          {% endif %}
+
+          <!-- Notifications -->
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="{{ url_for('notifications') }}"
+               aria-label="{{ _('اعلان‌ها') }}">
+              🔔
+              {% if unread_notifications > 0 %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ unread_notifications }}
+                </span>
+              {% endif %}
+            </a>
+          </li>
+
+          <!-- User dropdown -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center"
+               href="#" id="navbarUserDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://api.dicebear.com/8.x/initials/svg?seed={{ current_user.username }}"
+                   alt="{{ _('آواتار') }} {{ current_user.username }}"
+                   class="avatar-xs rounded-circle me-1">
+              {{ current_user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                aria-labelledby="navbarUserDropdown">
+              {% if current_user.role == 'admin' %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('admin_dashboard') }}">
+                    {{ _('پنل مدیریت') }}
+                  </a>
+                </li>
+              {% else %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('profile') }}">
+                    {{ _('پروفایل من') }}
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('edit_profile') }}">
+                    {{ _('ویرایش پروفایل') }}
+                  </a>
+                </li>
+                {% if current_user.research_group in ['M', 'H'] %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('bank_account') }}">
+                      {{ _('حساب بانکی') }}
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('withdraw') }}">
+                      {{ _('برداشت وجه') }}
+                    </a>
+                  </li>
+                {% endif %}
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('logout') }}">
+                  {{ _('خروج') }}
+                </a>
+              </li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('login') }}">
+              {{ _('ورود') }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('register') }}">
+              {{ _('ثبت‌نام') }}
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CSS (can live in style.css) -->
+<style>
+.avatar-xs {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+}
+</style>

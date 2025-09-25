@@ -1,0 +1,200 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('داشبورد') }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* Comments section */
+    .comments-section {
+        max-height: 200px;
+        overflow-y: auto;
+        font-size: 0.9em;
+    }
+    .like-btn {
+        cursor: pointer;
+    }
+    #map {
+        height: 250px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% from 'includes/_report_card.html' import report_card %}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h5>{{ _('ثبت گزارش جدید') }}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('dashboard') }}" enctype="multipart/form-data" id="reportForm">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <div class="mb-3">
+                        <label for="description" class="form-label">{{ _('توضیحات گزارش') }}</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">{{ _('تصویر (اختیاری)') }}</label>
+                        <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                        <div class="form-text">{{ _('فرمت‌های مجاز: JPG, PNG, GIF. حداکثر حجم: 5MB') }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label mb-0">{{ _('موقعیت مکانی روی نقشه') }}</label>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="getLocationBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                  <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                </svg>
+                                {{ _('مکان‌یابی خودکار') }}
+                            </button>
+                         </div>
+                        <div id="map" aria-label="{{ _('Map for selecting location') }}"></div>
+                        <small class="form-text text-muted">{{ _('برای تعیین موقعیت، روی نقشه کلیک کنید یا از دکمه مکان‌یابی خودکار استفاده نمایید.') }}</small>
+                        <input type="hidden" id="latitude" name="latitude">
+                        <input type="hidden" id="longitude" name="longitude">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">{{ _('ثبت گزارش') }}</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5>{{ _('گزارش‌های اخیر شما') }}</h5>
+            </div>
+            <div class="card-body">
+               {% if reports %}
+                   <div class="reports-grid">
+                       {% for report in reports %}
+                           {{ report_card(report, current_user) }}
+                       {% endfor %}
+                   </div>
+               {% else %}
+                    <p class="text-muted">{{ _('هنوز گزارشی ارسال نکرده‌اید.') }}</p>
+               {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h5>{{ _('آمار شما') }}</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ _('تعداد کل گزارش‌ها:') }}
+                        <span class="badge bg-primary rounded-pill">{{ stats.total }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ _('گزارش‌های تایید شده:') }}
+                        <span class="badge bg-success rounded-pill">{{ stats.approved }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ _('نرخ موفقیت:') }}
+                        <span class="badge bg-info rounded-pill">{{ stats.rate }}%</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5>{{ _('آخرین گزارش‌های کاربران') }}</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_reports %}
+                    <div class="reports-grid">
+                        {% for report in recent_reports %}
+                            {{ report_card(report, current_user) }}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center text-muted">{{ _('گزارشی برای نمایش وجود ندارد.') }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Map setup
+    const map = L.map('map').setView([35.6892, 51.3890], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+
+    let marker = null;
+    map.on('click', (e) => {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker(e.latlng).addTo(map);
+        document.getElementById('latitude').value = e.latlng.lat;
+        document.getElementById('longitude').value = e.latlng.lng;
+    });
+    // Auto-location handler
+    document.getElementById('getLocationBtn').addEventListener('click', () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                // Update map view and marker
+                map.setView([lat, lng], 15); // Zoom in closer for better accuracy
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                marker = L.marker([lat, lng]).addTo(map);
+
+                // Update hidden form fields
+                document.getElementById('latitude').value = lat;
+                document.getElementById('longitude').value = lng;
+
+            }, () => {
+                alert('{{ _("امکان دسترسی به موقعیت مکانی شما وجود ندارد. لطفاً دسترسی لازم را به مرورگر بدهید.") }}');
+            });
+        } else {
+            alert('{{ _("مرورگر شما از قابلیت موقعیت مکانی پشتیبانی نمی‌کند.") }}');
+        }
+    });
+
+    // Like button handler
+    document.querySelectorAll('.like-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const reportId = btn.dataset.reportId;
+            const icon   = btn.querySelector('svg');
+            const count  = btn.querySelector('.like-count');
+
+            fetch(`/like_report/${reportId}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) return alert(data.error);
+                    count.textContent = data.likes;
+                    icon.style.fill = data.liked ? 'red' : 'currentColor';
+                })
+                .catch(console.error);
+        });
+    });
+
+    // Submit button loading state
+    document.getElementById('reportForm')?.addEventListener('submit', () => {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ _('در حال ثبت...') }}
+        `;
+    });
+});
+</script>
+{% endblock %}

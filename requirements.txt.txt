@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug
+Flask-Babel
+Flask-WTF
+python-dotenv
+Babel

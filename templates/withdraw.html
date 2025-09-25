@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('برداشت وجه') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow mt-4 mb-5">
+      <div class="card-header">
+        <h4>{{ _('ثبت درخواست برداشت وجه') }}</h4>
+      </div>
+
+      <div class="card-body">
+        {% if user.bank_account %}
+          <div class="alert alert-info">
+            <h5 class="alert-heading">{{ _('موجودی قابل برداشت شما:') }}</h5>
+            <p class="display-6">{{ "{:,.0f}".format(user.balance) }} {{ _('تومان') }}</p>
+          </div>
+
+          {# FIX: Changed url_for('withdraw_request') to url_for('withdraw') #}
+          <form method="POST" action="{{ url_for('withdraw') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <div class="mb-3">
+              <label for="amount" class="form-label">
+                {{ _('مبلغ برداشت (به تومان)') }}
+              </label>
+              <input type="number"
+                     class="form-control"
+                     id="amount"
+                     name="amount"
+                     min="10000"
+                     max="{{ user.balance }}"
+                     required
+                     aria-describedby="amountHelp">
+              <div id="amountHelp" class="form-text">
+                {{ _('حداقل مبلغ قابل برداشت ۱۰,۰۰۰ تومان است.') }}
+              </div>
+            </div>
+
+            <div class="alert alert-light">
+              <strong>{{ _('توجه:') }}</strong>
+              {{ _('مبلغ درخواستی به شماره شبای ثبت شده شما واریز خواهد شد.') }}
+              {# FIX: Changed url_for('edit_bank_account') to url_for('bank_account') #}
+              <a href="{{ url_for('bank_account') }}" class="alert-link">
+                {{ _('از صحت اطلاعات حساب خود اطمینان حاصل کنید.') }}
+              </a>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="{{ url_for('profile') }}" class="btn btn-secondary">
+                {{ _('انصراف') }}
+              </a>
+              <button type="submit"
+                      class="btn btn-success"
+                      {% if user.balance < 10000 %}disabled aria-disabled="true"{% endif %}>
+                {{ _('ثبت درخواست') }}
+              </button>
+            </div>
+          </form>
+
+        {% else %}
+          <div class="alert alert-warning text-center">
+            <p>{{ _('برای ثبت درخواست برداشت، ابتدا اطلاعات حساب بانکی خود را تکمیل کنید.') }}</p>
+            {# FIX: Changed url_for('edit_bank_account') to url_for('bank_account') #}
+            <a href="{{ url_for('bank_account') }}" class="btn btn-primary">
+              {{ _('تکمیل / ویرایش حساب بانکی') }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

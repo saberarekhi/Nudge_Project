@@ -1,0 +1,144 @@
+{% extends 'layout.html' %}
+
+{% block title %}{{ _('ثبت‌نام') }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card mt-4 mb-5 shadow">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4">{{ _('ایجاد حساب کاربری جدید') }}</h2>
+
+        <form method="post" action="{{ url_for('register') }}" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <!-- Basic -->
+          <div class="mb-3">
+            <label for="username" class="form-label">{{ _('نام کاربری') }}</label>
+            <input type="text"
+                   class="form-control"
+                   id="username"
+                   name="username"
+                   required
+                   autocomplete="username"
+                   aria-label="{{ _('نام کاربری') }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">{{ _('ایمیل') }}</label>
+            <input type="email"
+                   class="form-control"
+                   id="email"
+                   name="email"
+                   required
+                   autocomplete="email"
+                   aria-label="{{ _('ایمیل') }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">{{ _('رمز عبور') }}</label>
+            <input type="password"
+                   class="form-control"
+                   id="password"
+                   name="password"
+                   required
+                   autocomplete="new-password"
+                   aria-label="{{ _('رمز عبور') }}"
+                   aria-describedby="passHelp">
+            <div id="passHelp" class="form-text">
+              {{ _('حداقل ۸ کاراکتر، شامل حروف و اعداد.') }}
+            </div>
+          </div>
+
+          <hr>
+
+          <p class="text-muted mb-3">{{ _('اطلاعات جمعیت‌شناختی (اختیاری)') }}</p>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="age" class="form-label">{{ _('سن') }}</label>
+              <input type="number"
+                     class="form-control"
+                     id="age"
+                     name="age"
+                     min="13"
+                     max="120"
+                     autocomplete="age"
+                     aria-label="{{ _('سن') }}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="gender" class="form-label">{{ _('جنسیت') }}</label>
+              <select class="form-select" id="gender" name="gender"
+                      aria-label="{{ _('جنسیت') }}">
+                <option value="" disabled selected>{{ _('انتخاب کنید') }}</option>
+                <option value="male">{{ _('مرد') }}</option>
+                <option value="female">{{ _('زن') }}</option>
+                <option value="other">{{ _('غیره') }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="occupation" class="form-label">{{ _('شغل') }}</label>
+            <input type="text"
+                   class="form-control"
+                   id="occupation"
+                   name="occupation"
+                   maxlength="100"
+                   autocomplete="organization-title"
+                   aria-label="{{ _('شغل') }}">
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="education" class="form-label">{{ _('تحصیلات') }}</label>
+              <select class="form-select" id="education" name="education"
+                      aria-label="{{ _('تحصیلات') }}">
+                <option value="" disabled selected>{{ _('انتخاب کنید...') }}</option>
+                <option value="diploma">{{ _('دیپلم و پایین‌تر') }}</option>
+                <option value="bachelor">{{ _('کارشناسی') }}</option>
+                <option value="master">{{ _('کارشناسی ارشد') }}</option>
+                <option value="phd">{{ _('دکتری و بالاتر') }}</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="tech_familiarity" class="form-label">{{ _('آشنایی با فناوری') }}</label>
+              <select class="form-select" id="tech_familiarity" name="tech_familiarity"
+                      aria-label="{{ _('آشنایی با فناوری') }}">
+                <option value="" disabled selected>{{ _('انتخاب کنید...') }}</option>
+                <option value="low">{{ _('کم') }}</option>
+                <option value="medium">{{ _('متوسط') }}</option>
+                <option value="high">{{ _('زیاد') }}</option>
+              </select>
+            </div>
+          </div>
+
+          <hr>
+
+          <!-- Terms -->
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="agree_terms" name="agree_terms" required>
+            <label class="form-check-label" for="agree_terms">
+              {{ _('من') }}
+              <a href="{{ url_for('terms') }}" target="_blank" rel="noopener">{{ _('شرایط و قوانین') }}</a>
+              {{ _('و') }}
+              <a href="{{ url_for('privacy') }}" target="_blank" rel="noopener">{{ _('سیاست حریم خصوصی') }}</a>
+              {{ _('را مطالعه کرده و با آن موافقم.') }}
+            </label>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">{{ _('ثبت‌نام') }}</button>
+          </div>
+        </form>
+
+        <div class="mt-3 text-center">
+          <small>{{ _('قبلاً ثبت‌نام کرده‌اید؟') }}
+            <a href="{{ url_for('login') }}">{{ _('وارد شوید') }}</a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
