@@ -1,5 +1,5 @@
 Q1 Project: A Crowdsourcing Platform for Civic Participation Research
-This repository contains the source code for the Progressive Web App (PWA) used in the field experiment detailed in the academic paper: "Incentives, Nudges, and the Sustainability of Urban Crowdsourcing: A Randomized Controlled Trial."
+This repository contains the source code for the Progressive Web App (PWA) used in the field experiment detailed in the academic paper: The Price of Participation: A Field Experiment on Micropayments, Nudges, and the Hidden Costs of Civic Engagement
 
 This platform was designed as the primary instrument for an 8-week study investigating the effects of different motivational interventions on citizen engagement in urban issue reporting.
 
